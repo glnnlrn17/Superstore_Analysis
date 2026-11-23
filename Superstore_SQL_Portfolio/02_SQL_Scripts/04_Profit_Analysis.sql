@@ -1,6 +1,5 @@
--- 04 Profit analysis (table: orders_clean)
+-- 04 Profit analysis 
 
--- @name profit_by_category
 SELECT category,
        ROUND(SUM(sales), 2)  AS sales,
        ROUND(SUM(profit), 2) AS profit,
@@ -9,7 +8,7 @@ FROM orders_clean
 GROUP BY category
 ORDER BY profit DESC;
 
--- @name profit_by_subcategory
+-- profit_by_subcategory
 SELECT sub_category, category,
        ROUND(SUM(sales), 2)  AS sales,
        ROUND(SUM(profit), 2) AS profit,
@@ -19,7 +18,7 @@ FROM orders_clean
 GROUP BY sub_category, category
 ORDER BY profit ASC;
 
--- @name profit_by_discount_band
+-- profit_by_discount_band
 SELECT discount_band,
        COUNT(*) AS lines,
        ROUND(SUM(sales), 2)  AS sales,
@@ -30,7 +29,7 @@ FROM orders_clean
 GROUP BY discount_band
 ORDER BY MIN(discount);
 
--- @name profit_by_discount_level
+-- profit_by_discount_level
 SELECT discount,
        COUNT(*) AS lines,
        ROUND(SUM(profit) / SUM(sales), 4) AS profit_margin
@@ -38,14 +37,14 @@ FROM orders_clean
 GROUP BY discount
 ORDER BY discount;
 
--- @name loss_making_lines
+-- loss_making_lines
 SELECT COUNT(*) AS loss_making_lines,
        ROUND(SUM(profit), 2) AS total_loss,
        ROUND(100.0 * COUNT(*) / (SELECT COUNT(*) FROM orders_clean), 2) AS pct_of_lines
 FROM orders_clean
 WHERE profit < 0;
 
--- @name worst_10_products_by_profit
+-- worst_10_products_by_profit
 SELECT product_name, sub_category,
        ROUND(SUM(sales), 2)  AS sales,
        ROUND(SUM(profit), 2) AS profit,
