@@ -1,11 +1,4 @@
--- 02 Data cleaning: builds the orders_clean table from superstore_raw.
--- Decisions (see Cleaning_Log.xlsx):
---   * Dates converted from M/D/YYYY text to ISO YYYY-MM-DD.
---   * Postal codes padded back to 5 digits (438 codes had lost leading zeros).
---   * Customer Name and Product Name are not needed for the analysis; Customer Name is dropped
---     because it is personal data. Customer ID is kept.
---   * Numeric columns cast to proper types. Country is constant (United States) and dropped.
---   * Derived columns: order_year, order_month, order_quarter, ship_days, profit_margin, discount_band.
+-- 02 Data cleaning
 
 DROP TABLE IF EXISTS orders_clean;
 
@@ -56,15 +49,15 @@ SELECT
   END AS discount_band
 FROM parsed;
 
--- Post-clean checks (run after the table is built)
--- @name clean_row_count
+-- Post-clean checks
+-- clean_row_count
 SELECT COUNT(*) AS clean_rows FROM orders_clean;
 
--- @name ship_before_order_check
+-- ship_before_order_check
 SELECT COUNT(*) AS ship_before_order FROM orders_clean WHERE ship_date < order_date;
 
--- @name date_range_check
+-- date_range_check
 SELECT MIN(order_date) AS first_order, MAX(order_date) AS last_order, MIN(ship_days) AS min_ship_days, MAX(ship_days) AS max_ship_days FROM orders_clean;
 
--- @name postal_check
+-- postal_check
 SELECT LENGTH(postal_code) AS postal_length, COUNT(*) AS rows FROM orders_clean GROUP BY LENGTH(postal_code);
