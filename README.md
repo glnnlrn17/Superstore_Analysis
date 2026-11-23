@@ -2,7 +2,7 @@
 
 **Project Overview**
 
-This project analyzes sales and profitability data from a fictional retail superstore using SQL and Power BI.
+This project analyzes sales and profitability data from a fictional retail superstore using SQL.
 The analysis focuses on understanding the company's sales performance, identifying profitable and unprofitable products, evaluating customer segments, and examining regional performance.
 Using transaction-level data, the project explores how product categories, discounts, shipping methods, customer segments, and geographic locations relate to sales and profit.
 The goal is to transform raw sales data into meaningful business insights that can help identify areas for improvement and support better business decisions.
