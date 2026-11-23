@@ -1,6 +1,5 @@
--- 07 Regional analysis (table: orders_clean)
+-- 07 Regional analysis 
 
--- @name region_summary
 SELECT region,
        ROUND(SUM(sales), 2)  AS sales,
        ROUND(SUM(profit), 2) AS profit,
@@ -10,7 +9,7 @@ FROM orders_clean
 GROUP BY region
 ORDER BY sales DESC;
 
--- @name state_ranking_top_and_bottom
+-- state_ranking_top_and_bottom
 WITH state_totals AS (
   SELECT state, region,
          ROUND(SUM(sales), 2) AS sales,
@@ -22,7 +21,7 @@ SELECT * FROM (SELECT 'Top 10 by profit' AS group_name, * FROM state_totals ORDE
 UNION ALL
 SELECT * FROM (SELECT 'Bottom 10 by profit' AS group_name, * FROM state_totals ORDER BY profit ASC LIMIT 10);
 
--- @name region_category_margin
+-- region_category_margin
 SELECT region, category,
        ROUND(SUM(sales), 2)  AS sales,
        ROUND(SUM(profit), 2) AS profit,
