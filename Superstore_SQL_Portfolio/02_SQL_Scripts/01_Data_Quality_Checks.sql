@@ -1,10 +1,8 @@
--- 01 Data quality checks on the raw Superstore table (superstore_raw)
--- Every check should return 0 unless noted. Results are exported to Cleaning_Log.xlsx.
-
--- @name row_count
+-- 01 Data quality checks
+-- row_count
 SELECT COUNT(*) AS total_rows FROM superstore_raw;
 
--- @name missing_values
+-- missing_values
 SELECT
   SUM("Order ID" IS NULL OR TRIM("Order ID") = '')    AS missing_order_id,
   SUM("Order Date" IS NULL OR TRIM("Order Date") = '') AS missing_order_date,
@@ -15,35 +13,33 @@ SELECT
   SUM("Profit" IS NULL OR TRIM("Profit") = '')         AS missing_profit
 FROM superstore_raw;
 
--- @name duplicate_row_ids
+-- duplicate_row_ids
 SELECT COUNT(*) AS duplicate_row_ids
 FROM (SELECT "Row ID" FROM superstore_raw GROUP BY "Row ID" HAVING COUNT(*) > 1);
 
--- @name duplicate_order_lines
+-- duplicate_order_lines
 SELECT COUNT(*) AS duplicate_order_product_lines
 FROM (SELECT "Order ID", "Product ID", COUNT(*) AS n FROM superstore_raw
       GROUP BY "Order ID", "Product ID" HAVING COUNT(*) > 1);
 
--- @name bad_date_format
--- Dates are stored as M/D/YYYY text. Count values that do not have two slashes.
+-- bad_date_format
 SELECT
   SUM(LENGTH("Order Date") - LENGTH(REPLACE("Order Date", '/', '')) <> 2) AS bad_order_date_format,
   SUM(LENGTH("Ship Date")  - LENGTH(REPLACE("Ship Date",  '/', '')) <> 2) AS bad_ship_date_format
 FROM superstore_raw;
 
--- @name invalid_numeric_values
+-- invalid_numeric_values
 SELECT
   SUM(CAST("Sales" AS REAL) <= 0)       AS non_positive_sales,
   SUM(CAST("Quantity" AS INTEGER) <= 0) AS non_positive_quantity,
   SUM(CAST("Discount" AS REAL) < 0 OR CAST("Discount" AS REAL) > 1) AS discount_out_of_range
 FROM superstore_raw;
 
--- @name postal_code_length
--- Postal codes stored as numbers lose leading zeros (for example 02134 becomes 2134).
+-- postal_code_length
 SELECT LENGTH("Postal Code") AS postal_length, COUNT(*) AS rows
 FROM superstore_raw GROUP BY LENGTH("Postal Code") ORDER BY postal_length;
 
--- @name distinct_values_check
+-- distinct_values_check
 SELECT 'Segment' AS field, COUNT(DISTINCT "Segment") AS distinct_values FROM superstore_raw
 UNION ALL SELECT 'Region', COUNT(DISTINCT "Region") FROM superstore_raw
 UNION ALL SELECT 'Category', COUNT(DISTINCT "Category") FROM superstore_raw
