@@ -1,6 +1,5 @@
--- 05 Customer analysis (table: orders_clean). Customer names are not used.
+-- 05 Customer analysis 
 
--- @name customer_order_frequency
 WITH per_customer AS (
   SELECT customer_id, COUNT(DISTINCT order_id) AS orders, SUM(sales) AS sales, SUM(profit) AS profit
   FROM orders_clean GROUP BY customer_id
@@ -14,7 +13,7 @@ SELECT
   ROUND(AVG(sales), 2) AS avg_sales_per_customer
 FROM per_customer;
 
--- @name top_10_customers_by_sales
+-- top_10_customers_by_sales
 SELECT customer_id,
        COUNT(DISTINCT order_id) AS orders,
        ROUND(SUM(sales), 2)  AS sales,
@@ -24,7 +23,7 @@ GROUP BY customer_id
 ORDER BY sales DESC
 LIMIT 10;
 
--- @name customer_value_tiers
+-- customer_value_tiers
 WITH per_customer AS (
   SELECT customer_id, SUM(sales) AS sales FROM orders_clean GROUP BY customer_id
 ), ranked AS (
@@ -38,7 +37,7 @@ FROM ranked
 GROUP BY quartile
 ORDER BY quartile;
 
--- @name segment_customers_and_profit
+-- segment_customers_and_profit
 SELECT segment,
        COUNT(DISTINCT customer_id) AS customers,
        ROUND(SUM(sales), 2)  AS sales,
