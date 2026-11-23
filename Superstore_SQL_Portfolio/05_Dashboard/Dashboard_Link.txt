@@ -1,0 +1,6 @@
+Looker Studio dashboard link: NOT YET PUBLISHED
+
+Replace this line with the published Looker Studio URL after you publish the dashboard.
+
+Local stand-in: the Excel dashboard in this folder (Superstore_Excel_Dashboard.xlsx),
+with a PDF export (Dashboard_Export.pdf) and a screenshot (Dashboard_Screenshot.png).
