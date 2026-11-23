@@ -1,13 +1,12 @@
--- 06 Product analysis (table: orders_clean)
+-- 06 Product analysis
 
--- @name product_count_by_category
 SELECT category, COUNT(DISTINCT product_id) AS products,
        ROUND(SUM(sales) / COUNT(DISTINCT product_id), 2) AS sales_per_product
 FROM orders_clean
 GROUP BY category
 ORDER BY sales_per_product DESC;
 
--- @name subcategory_sales_profit_units
+-- subcategory_sales_profit_units
 SELECT sub_category, category,
        COUNT(DISTINCT product_id) AS products,
        SUM(quantity) AS units,
@@ -19,7 +18,7 @@ FROM orders_clean
 GROUP BY sub_category, category
 ORDER BY sales DESC;
 
--- @name discount_vs_margin_by_category
+-- discount_vs_margin_by_category
 SELECT category,
        ROUND(AVG(discount), 3) AS avg_discount,
        ROUND(SUM(profit) / SUM(sales), 4) AS profit_margin,
