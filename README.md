@@ -1,4 +1,4 @@
-# superstore-sql-portfolio
+# Superstore SQL Analysis
 
 **Project Overview**
 
